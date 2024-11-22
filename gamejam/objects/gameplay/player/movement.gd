@@ -66,7 +66,7 @@ func update_velocities(dir: Vector2, jump: bool, delta: float):
 	## gravity
 	if (p.velocity.y < 0): # going up
 		p.velocity.y += first_half_grav * delta
-	else:                  # going down 
+	else: # going down
 		p.velocity.y += second_half_grav * delta
 	
 	## decrement coyote timer every frame
@@ -79,12 +79,12 @@ func update_velocities(dir: Vector2, jump: bool, delta: float):
 	if dir:
 		# change directions at start rate
 		# makes counterstrafing possible
-		p.velocity.x = lerpf(p.velocity.x, 
-							 dir.x * max_speed, 
+		p.velocity.x = lerpf(p.velocity.x,
+							 dir.x * max_speed,
 							 start_accel / max_speed * multiplier)
 	else:
 		# only use stop rate for stopping
-		p.velocity.x = lerpf(p.velocity.x, 0, 
+		p.velocity.x = lerpf(p.velocity.x, 0,
 							 stop_accel / max_speed * multiplier)
 
 	# jumping
@@ -104,8 +104,8 @@ func cancel_movement():
 
 # update movement config with external values
 # only used by movement tuner
-func update_config(start_accel: float, 
-				   stop_accel:float, 
+func update_config(start_accel: float,
+				   stop_accel: float,
 				   max_speed: float,
 				   jump_height: float,
 				   sticky_distance: float,
@@ -137,3 +137,10 @@ func animate(x_input: float, on_floor: bool, sprite: AnimatedSprite2D):
 	elif x_input < 0: sprite.flip_h = false
 	
 	if !on_floor: sprite.play("jump")
+
+# Add to existing movement.gd
+func reset_config():
+	# Reset movement parameters to defaults
+	sticky_distance = 16
+	jump_height = 48
+	air_strafe_multiplier = 1.0
