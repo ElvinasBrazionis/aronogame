@@ -16,6 +16,8 @@ var color_cooldowns = {
 	ColorState.PURPLE: 0.0
 }
 const COOLDOWN_TIME = 2.0
+const COLOR_SWITCH_COOLDOWN = 2.0
+var color_switch_timer = 0.0
 
 func _ready():
 	# Verify particle system exists
@@ -30,21 +32,25 @@ func _process(delta):
 		if color_cooldowns[color] > 0:
 			color_cooldowns[color] = max(0, color_cooldowns[color] - delta)
 	
+	# Update color switch cooldown
+	if color_switch_timer > 0:
+		color_switch_timer = max(0, color_switch_timer - delta)
+	
 	# Update visual effects based on current color
 	update_color_effects()
 
 func _physics_process(_delta):
-	# Color-specific movement modifications
+	movement.reset_config()
+	
 	match current_color:
 		ColorState.BLUE:
-			movement.sticky_distance = 32  # Better ice grip
+			movement.sticky_distance = 32
 		ColorState.GREEN:
-			movement.jump_height = 300  # Higher jumps
+			movement.jump_height = 300
 		ColorState.PURPLE:
-			movement.air_strafe_multiplier = 1.5  # Better air control
+			movement.air_strafe_multiplier = 1.5
 		_:
-			# Reset to default values
-			movement.reset_config()
+			pass
 
 func _input(event):
 	# Color switching inputs
@@ -67,8 +73,19 @@ func switch_color(new_color: ColorState):
 	if current_color == new_color:
 		return
 	
+	# Check if color switch is on cooldown
+	if color_switch_timer > 0:
+		return
+	
+	# Reset all ability cooldowns when switching colors
+	for color in color_cooldowns.keys():
+		color_cooldowns[color] = 0.0
+	
 	current_color = new_color
 	update_color_effects()
+	
+	# Start color switch cooldown
+	color_switch_timer = COLOR_SWITCH_COOLDOWN
 	
 	# Emit signal for color change
 	emit_signal("color_changed", current_color)
@@ -124,7 +141,7 @@ func emit_light():
 	pass
 
 func teleport_forward():
-	var teleport_distance = 100
+	var teleport_distance = 200
 	var direction = Vector2.RIGHT if sprite.flip_h else Vector2.LEFT
 	position += direction * teleport_distance
 
