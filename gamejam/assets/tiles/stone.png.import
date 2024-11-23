@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmqg87v3fyppd"
-path="res://.godot/imported/arcade.png-819d20ad26a9268caab5a166f86bbd6e.ctex"
+uid="uid://mrlrw7qrfp55"
+path="res://.godot/imported/stone.png-a62a9bfa37f7b92c70831e50c465efad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/arcade.png"
-dest_files=["res://.godot/imported/arcade.png-819d20ad26a9268caab5a166f86bbd6e.ctex"]
+source_file="res://assets/tiles/stone.png"
+dest_files=["res://.godot/imported/stone.png-a62a9bfa37f7b92c70831e50c465efad.ctex"]
 
 [params]
 
